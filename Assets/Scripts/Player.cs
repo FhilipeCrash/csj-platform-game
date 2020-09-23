@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
   public Animator anim;
 
   bool estaPulando;
+  float baixo;
 
   void Start() {
     
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour {
 
   void Update() {
     Movimentar();
+    Agachar();
     Pular();
   }
 
@@ -52,6 +54,19 @@ public class Player : MonoBehaviour {
       anim.SetInteger("transition", 2);
     }
   }
+
+  void Agachar() {
+    float chao = Input.GetAxis("Vertical");
+    if(Input.GetKey("s")) {
+      baixo = -1;
+    }
+
+    rig.velocity = new Vector2(rig.velocity.x, chao * baixo);
+    if(chao < 0) {
+      anim.SetInteger("transition", 3);
+    }
+  }
+
   private void OnCollisionEnter2D(Collision2D collision) {
     if(collision.gameObject.layer == 8) {
       estaPulando = false;
