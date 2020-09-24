@@ -18,40 +18,43 @@ public class Player : MonoBehaviour {
 
   void Update() {
     Movimentar();
-    // Agachar();
+    Agachar();
     Pular();
   }
 
   void Movimentar() {
     float direcao = Input.GetAxis("Horizontal");
-    rig.velocity = new Vector2(direcao * velocidade, rig.velocity.y);
-
-    if(direcao > 0f) {
-      transform.eulerAngles = new Vector2(0f, 0f);
-      if(estaPulando == false) {
-        anim.SetInteger("transition", 1);
+    if(estaAgachado == false) {
+      rig.velocity = new Vector2(direcao * velocidade, rig.velocity.y);
+      if(direcao > 0f) {
+        transform.eulerAngles = new Vector2(0f, 0f);
+        if(estaPulando == false) {
+          anim.SetInteger("transition", 1);
+        }
       }
-    }
 
-    if(direcao < 0f) {
-      transform.eulerAngles = new Vector2(0f, 180f);
-      if(estaPulando == false) {
-        anim.SetInteger("transition", 1);
+      if(direcao < 0f) {
+        transform.eulerAngles = new Vector2(0f, 180f);
+        if(estaPulando == false) {
+          anim.SetInteger("transition", 1);
+        }
       }
-    }
 
-    if(direcao == 0) {
-      if(estaPulando == false) {
-        anim.SetInteger("transition", 0);
+      if(direcao == 0) {
+        if(estaPulando == false) {
+          anim.SetInteger("transition", 0);
+        }
       }
     }
   }
 
   void Pular() {
-    if(Input.GetButtonDown("Jump") && estaPulando == false) {
-      rig.AddForce(new Vector2(0f, forcaPulo), ForceMode2D.Impulse);
-      estaPulando = true;
-      anim.SetInteger("transition", 2);
+    if(estaAgachado == false) {
+      if(Input.GetButtonDown("Jump") && estaPulando == false) {
+        rig.AddForce(new Vector2(0f, forcaPulo), ForceMode2D.Impulse);
+        estaPulando = true;
+        anim.SetInteger("transition", 2);
+      }
     }
   }
 
