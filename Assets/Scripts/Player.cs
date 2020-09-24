@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
   public Rigidbody2D rig;
   public Animator anim;
 
+  bool estaAgachado;
   bool estaPulando;
   float baixo;
 
@@ -17,7 +18,7 @@ public class Player : MonoBehaviour {
 
   void Update() {
     Movimentar();
-    Agachar();
+    // Agachar();
     Pular();
   }
 
@@ -27,7 +28,6 @@ public class Player : MonoBehaviour {
 
     if(direcao > 0f) {
       transform.eulerAngles = new Vector2(0f, 0f);
-
       if(estaPulando == false) {
         anim.SetInteger("transition", 1);
       }
@@ -56,14 +56,12 @@ public class Player : MonoBehaviour {
   }
 
   void Agachar() {
-    float chao = Input.GetAxis("Vertical");
-    if(Input.GetKey("s")) {
-      baixo = -1;
-    }
-
-    rig.velocity = new Vector2(rig.velocity.x, chao * baixo);
-    if(chao < 0) {
+    float duck = Input.GetAxis("Vertical");
+    if(duck < 0) {
       anim.SetInteger("transition", 3);
+      estaAgachado = true;
+    } else {
+      estaAgachado = false;
     }
   }
 
